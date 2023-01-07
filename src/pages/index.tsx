@@ -1,11 +1,23 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { GetStaticProps } from "next";
+import { Inter } from "@next/font/google";
+import styles from "../styles/Home.module.css";
+import graphqlClient from "../graphql/graphQLClient";
+import { posts, postID1 } from "../graphql/queries";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export const getStaticProps: GetStaticProps = async () => {
+  const variables = { id: "1" };
+  const data = await graphqlClient.request(postID1, variables);
+  return {
+    props: { data },
+  };
+};
+
+export default function Home(props: any) {
+  console.log("initial props", props);
   return (
     <>
       <Head>
@@ -16,27 +28,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
+          <p>Start editing `index.tsx`</p>
         </div>
 
         <div className={styles.center}>
@@ -119,5 +111,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  )
+  );
 }
