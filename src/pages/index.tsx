@@ -4,13 +4,14 @@ import { GetStaticProps } from "next";
 import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
 import graphqlClient from "../graphql/graphQLClient";
-import { posts, postID1 } from "../graphql/queries";
+import { posts, singlePost } from "../graphql/queries";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const getStaticProps: GetStaticProps = async () => {
   const variables = { id: "1" };
-  const data = await graphqlClient.request(postID1, variables);
+  // const variables = { options: { paginate: { page: 1, limit: 20 } } };
+  const data = await graphqlClient.request(singlePost, variables);
   return {
     props: { data },
   };

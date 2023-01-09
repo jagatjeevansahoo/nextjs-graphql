@@ -1,8 +1,8 @@
 import { gql } from "graphql-request";
 
-export const postID1 = gql`
-  {
-    post(id: 1) {
+export const singlePost = gql`
+  query getPost($id: ID!) {
+    post(id: $id) {
       id
       title
       body
@@ -10,22 +10,31 @@ export const postID1 = gql`
   }
 `;
 
-// export const posts = gql`
-//   {
-//     post(id: $id) {
-//       id
-//       title
-//       body
-//     }
-//   }
-// `;
-
 export const posts = gql`
-  query Post() {
-    post(id: String!) {
-      id
-      title
-      body
+  query {
+    posts {
+      data {
+        id
+        title
+      }
+      meta {
+        totalCount
+      }
+    }
+  }
+`;
+
+export const paginatedPosts = gql`
+  query getPaginatedPosts($options: PageQueryOptions) {
+    posts(options: $options) {
+      data {
+        id
+        title
+        body
+      }
+      meta {
+        totalCount
+      }
     }
   }
 `;
